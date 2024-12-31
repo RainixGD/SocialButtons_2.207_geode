@@ -41,7 +41,8 @@ class SocialButtonsManager {
 		OK,
 		FileNotFound,
 		ParsingError,
-		TooManyButtons
+		TooManyButtons,
+		InvalidUrl,
 	};
 
 	std::vector<SocialButtonData*> data;
@@ -50,6 +51,11 @@ class SocialButtonsManager {
 	
 	void init() {
 		loadingStatus = loadData();
+	}
+
+	bool isValidURL(const std::string& url) {
+		std::regex url_regex(R"(^https?://)");
+		return std::regex_search(url, url_regex);
 	}
 
 	DataLoadingResult loadData() {
@@ -82,6 +88,8 @@ class SocialButtonsManager {
 				std::string texture = btn["texture"];
 				std::string link = btn["link"];
 
+				if (!isValidURL(link)) return InvalidUrl;
+
 				auto buttonInfo = new SocialButtonData;
 				buttonInfo->isActive = isBtn;
 				buttonInfo->texture = texture;
@@ -103,14 +111,17 @@ public:
 
 			std::string errorText;
 			switch (loadingStatus){
-			case SocialButtonsManager::FileNotFound:
+			case FileNotFound:
 				errorText = "Can't find 'socialBtns.json' in ./Resources";
 				break;
-			case SocialButtonsManager::ParsingError:
+			case ParsingError:
 				errorText = "Can't parse 'socialBtns.json'";
 				break;
-			case SocialButtonsManager::TooManyButtons:
+			case TooManyButtons:
 				errorText = "Too many buttons in 'socialBtns.json'";
+				break;
+			case InvalidUrl:
+				errorText = "Links for buttons should start with 'http://' or 'https://' in 'socialBtns.json'";
 				break;
 			}
 
@@ -118,7 +129,7 @@ public:
 
 			auto errorLabel = CCLabelBMFont::create(errorText.c_str(), "bigFont.fnt");
 			errorLabel->setColor({ 255, 0, 0 });
-			errorLabel->setScale(0.6);
+			errorLabel->setScale(0.4);
 			errorLabel->setPosition({ size.width / 2, size.height - 10 });
 			layer->addChild(errorLabel);
 
