@@ -154,6 +154,7 @@ public:
 			if (btnSprite == NULL)
 				btnSprite = CCSprite::createWithSpriteFrameName("GJ_deleteIcon_001.png");
 			btnSprite->setScale(0.8);
+			btnSprite->setContentSize({31.5, 31.5});
 			auto btn = SocialButton::create(btnSprite, data[j]->link);
 
 			if (j < 4) upMenu->addChild(btn, 5, 100 + j);
