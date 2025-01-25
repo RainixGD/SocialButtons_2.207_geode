@@ -1,14 +1,11 @@
 {
 	"geode": "4.1.0",
 	"gd": {
-		"win": "2.2074",
-		"android": "2.2074",
-		"mac": "2.2074",
-		"ios": "2.2074"
+		"win": "2.2074"
 	},
 	"id": "rainixgd.socialbuttons",
 	"name": "SocialButtons",
-	"version": "v1.0.0",
+	"version": "v1.0.2",
 	"developer": "rainixgd",
 	"description": ""
 }

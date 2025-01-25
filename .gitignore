@@ -1,3 +1,7 @@
 .vs/
 out/
+build/
+build-android32/
+build-android64/
+merge/
 CMakeSettings.json
